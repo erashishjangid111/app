@@ -1,0 +1,75 @@
+<%- include('_layouts/header') %>
+
+<div class="container">
+    <h2 class="page-title">Order History</h2>
+    
+    <% if (orders.length === 0) { %>
+        <div class="alert alert-info">You have no orders yet.</div>
+    <% } else { %>
+        <% orders.forEach(function(order) { %>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Order Date:</strong> <%= new Date(order.date).toLocaleString() %>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <strong>Order Total:</strong> $<%= order.total.toFixed(2) %>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <% order.items.forEach(function(item) { %>
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-md-2">
+                                <img src="<%= item.image %>" alt="<%= item.title %>" class="img-fluid" style="max-width: 100px;">
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="mb-0"><%= item.title %></h5>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="text-muted">Quantity:</span>
+                                <strong><%= item.qt %></strong>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="text-muted">Price:</span>
+                                <strong>$<%= parseFloat(item.price).toFixed(2) %></strong>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <span class="text-muted">Subtotal:</span>
+                                <strong>$<%= (item.price * item.qt).toFixed(2) %></strong>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% }); %>
+    <% } %>
+</div>
+
+<style>
+.page-title {
+    margin: 30px 0;
+    color: #333;
+}
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+.card-body {
+    padding: 20px;
+}
+.img-fluid {
+    border-radius: 4px;
+}
+.text-muted {
+    display: block;
+    font-size: 0.9em;
+}
+</style>
+
+<%- include('_layouts/footer') %> 

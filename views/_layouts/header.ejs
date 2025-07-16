@@ -1,0 +1,58 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <title>Store-24</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudfare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  </head>
+  
+  <body>
+
+    <nav class="navbar navbar-default" style="box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:30px;">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Store-24</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/cart/checkout">Cart</a></li>
+          <% if (user) { %>
+            <li><a href="/cart/orders">Order History</a></li>
+            <% if (user.admin == 1) { %>
+              <li><a href="/admin/pages">Admin Dashboard</a></li>
+            <% } %>
+            <li><a href="/users/logout">Logout (<%= user.username %>)</a></li>
+          <% } else { %>
+            <li><a href="/users/login">Login</a></li>
+            <li><a href="/users/register">Register</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+        <%- messages('messages', locals) %>
+        
+        <div class="row">
+          <div class="col-xs-12 col-md-3">
+              <h3>Categories</h3>
+              <ul class="category-sidebar">
+                <li><a href="/products">All products</a></li>
+                  <% categories.forEach(function(c) { %>
+                      <li><a href="/products/<%= c.slug %>"><%= c.title %></a></li>
+                <% }); %>
+              </ul>
+          </div>
+          <div class="col-xs-12 col-md-1"></div>
+          <div class="col-xs-12 col-md-8">  
+        

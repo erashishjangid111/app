@@ -1,0 +1,80 @@
+<% include _layouts/header %>
+
+<% if(typeof cart !== "undefined") { %>
+
+    <h1 class="page-title">My Cart</h1>
+    <table class="table table-striped alignmiddle">
+    <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+        <th>SubTotal</th>
+    </tr>
+    
+    <% var total = 0; %>
+    <% cart.forEach(function(product){%>
+        <% var sub= parseFloat(product.qt *product.price).toFixed(2) %>
+        <% total += +sub %>   
+        <tr>
+                <td><img class="cpi" src="<%= product.image %>" alt=""></td>
+                <td><%= product.title %></td>
+                <td><%= product.price %></td>
+                <td><%= product.qt %></td>
+                <td>
+                    <a href="/cart/update/<%= product.title %>?action=add">+</a>&nbsp;
+                    <a href="/cart/update/<%= product.title %>?action=remove">-</a>&nbsp;
+                    <a href="/cart/update/<%= product.title %>?action=clear">Clear</a>&nbsp;
+               </td>
+               <td>$<%= sub %></td>
+               </tr>
+    <% }); %>
+
+    <tr>
+            <td colspan="6" align="right"><b>Total:</b>$<%= parseFloat(total).toFixed(2) %></td>
+         </tr>
+       <tr>
+           <td colspan="5" align="right">
+               <a class="clearcart btn btn-danger" href="/cart/clear">Clear Cart</a>
+            </td>
+      
+            <td colspan="5" align="right">
+                <form method="POST" action="/cart/cod" style="display:inline;">
+                  <button class="btn btn-success" type="submit">Place Order (Cash on Delivery)</button>
+                </form>
+             </td>
+        </tr>
+       </table>
+
+    
+        <% } 
+    else { %>
+      
+        <h3 class="text-center">Your cart is empty</h3>
+       
+      <% } %>
+
+<script>
+$(function(){
+    $('a.clearcart').on('click',function(){
+        if(!confirm('Clear Cart'))
+        return false
+    });
+
+    $('a.buynow').on('click',function(e){
+      
+        e.preventDefault();
+        $.get('/cart/buynow',function(){
+            $('form.pp input[type=image]').click();
+            $('.ajaxbg').show();
+        });
+    
+    });
+
+
+
+});
+</script>
+
+<% include _layouts/footer %>
